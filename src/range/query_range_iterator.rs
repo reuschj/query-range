@@ -1,6 +1,6 @@
 use std::ops::Range;
 use std::cmp::min;
-use super::utility::{ get_range, shift_range, is_within };
+use super::utility::{get_range, Shift, shift_range, shift_range_in_content, is_within };
 
 /// Iterates all found query within given content.
 pub struct QueryRangeItr<'a> {
@@ -42,7 +42,7 @@ impl<'a> QueryRangeItr<'a> {
         if let Some(range) = possible_range {
             if is_within(current_content, &range) {
                 let next_start = range.end;
-                let possible_range = shift_range(range, self.removed_count, Some(self.full_content));
+                let possible_range = shift_range_in_content(range, Shift::Up(self.removed_count), self.full_content);
                 if let Some(range) = possible_range {
                     let start_len = current_content.len();
                     self.current_content = &current_content[next_start..];
@@ -67,7 +67,7 @@ impl<'a> QueryRangeItr<'a> {
         let range = get_range(self.query, current_content).unwrap_or(len..len);
         let end_index = range.start;
         let next_start: usize = min(range.end, len);
-        let possible_range = shift_range(start_index..end_index, self.removed_count, None);
+        let possible_range = shift_range(start_index..end_index, Shift::Up(self.removed_count));
         self.current_content = &current_content[next_start..];
         let start_length = len;
         self.removed_count += start_length - self.current_content.len();
@@ -98,6 +98,8 @@ impl<'a> Iterator for QueryRangeItr<'a> {
 
 #[cfg(test)]
 mod tests {
+    // use super::*;
+
     #[test]
     fn it_works() {
         assert_eq!(2 + 2, 4);
