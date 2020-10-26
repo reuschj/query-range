@@ -11,7 +11,7 @@
 
 pub use range::query_range_iterator::QueryRangeItr;
 pub use range::utility;
-pub use range::utility::{get_range, Shift, shift_range, shift_range_in_content, is_within};
+pub use range::utility::{to_title_case, get_range, Shift, shift_range, shift_range_in_content, is_within};
 
 // Modules --------------------------------------------------------------------------------------- /
 

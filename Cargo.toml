@@ -3,6 +3,11 @@ name = "query-range"
 version = "0.1.0"
 authors = ["reuschj <reuschj@gmail.com>"]
 edition = "2018"
+license = "GPL-2.0-or-later"
+description = "This package provides an iterator which finds all ranges of a query within the searched content."
+homepage = "https://github.com/reuschj/query-range"
+repository = "https://github.com/reuschj/query-range"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

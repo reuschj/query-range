@@ -1,6 +1,6 @@
 # Query Range
 
-This package provides an iterator (conforming to `IteratorProtocol`) which finds all ranges of a query within the searched content. The iterator can be collected to an `Vec<Range<usize>>`, mapped or used manually (by calling the `next()` method until no further result is returned). 
+This package provides an iterator (conforming to `Iterator`) which finds all ranges of a query within the searched content. The iterator can be collected to an `Vec<Range<usize>>`, mapped or used manually (by calling the `next()` method until no further result is returned). 
 
 This also exports several range utilities for use with strings.
 
