@@ -3,6 +3,17 @@ use num::{PrimInt};
 
 // Utilities ------------------------------------------------------------------------------------- /
 
+/// Converts a string to title case (first letter capitalized and all the rest lower-case).
+pub fn to_title_case(content: &str) -> String {
+    if content.len() > 1 {
+        format!("{}{}", &content[0..1].to_uppercase(), &content[1..].to_lowercase())
+    } else if content.len() == 1 {
+        content[0..1].to_uppercase()
+    } else {
+        String::new()
+    }
+}
+
 /// Gets first range of given query in given content.
 pub fn get_range(query: &str, content: &str) -> Option<Range<usize>> {
     let possible_start = content.find(query);
@@ -112,7 +123,7 @@ pub fn shift_range_in_content<T>(range: Range<T>, shift: Shift<T>, content: &str
 /// assert_eq!(is_within(test_str, &range), true);
 ///
 /// let range02 = 20..25;
-/// assert_eq!(is_within(test_str, &range), false);
+/// assert_eq!(is_within(test_str, &range02), false);
 /// ```
 pub fn is_within<T>(content: &str, range: &Range<T>) -> bool where T: PrimInt {
     let range_end = range.end.to_usize();
@@ -132,6 +143,33 @@ pub fn is_within<T>(content: &str, range: &Range<T>) -> bool where T: PrimInt {
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn can_convert_to_title_case() {
+        assert_eq!(to_title_case("fooBarBaz"), "Foobarbaz");
+        assert_eq!(to_title_case("f"), "F");
+        assert_eq!(to_title_case(""), "");
+    }
+
+    #[test]
+    fn can_apply_a_shift_to_a_number() {
+        let number = 5;
+        let shift = Shift::Up(2);
+        assert_eq!(shift.apply_to_number(number), Some(7));
+        let number = 8;
+        let shift = Shift::Down(3);
+        assert_eq!(shift.apply_to_number(number), Some(5));
+    }
+
+    #[test]
+    fn can_apply_a_shift_to_a_range() {
+        let range = 0..5;
+        let shift = Shift::Up(2);
+        assert_eq!(shift.apply_to_range(range), Some(2..7));
+        let range = 4..7;
+        let shift = Shift::Down(3);
+        assert_eq!(shift.apply_to_range(range), Some(1..4));
+    }
 
     #[test]
     fn can_shift_a_range() {
